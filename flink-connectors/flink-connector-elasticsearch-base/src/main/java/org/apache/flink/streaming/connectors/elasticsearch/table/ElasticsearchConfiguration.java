@@ -149,6 +149,10 @@ class ElasticsearchConfiguration {
         return config.getOptional(ElasticsearchOptions.CONNECTION_PATH_PREFIX);
     }
 
+    public Boolean getIgnoreRetract() {
+        return config.get(ElasticsearchOptions.IGNORE_RETRACT_OPTION);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

@@ -50,6 +50,7 @@ class RowElasticsearchSinkFunction implements ElasticsearchSinkFunction<RowData>
     private final XContentType contentType;
     private final RequestFactory requestFactory;
     private final Function<RowData, String> createKey;
+    private final Boolean ignoreRetract;
 
     public RowElasticsearchSinkFunction(
             IndexGenerator indexGenerator,
@@ -57,13 +58,15 @@ class RowElasticsearchSinkFunction implements ElasticsearchSinkFunction<RowData>
             SerializationSchema<RowData> serializationSchema,
             XContentType contentType,
             RequestFactory requestFactory,
-            Function<RowData, String> createKey) {
+            Function<RowData, String> createKey,
+            Boolean ignoreRetract) {
         this.indexGenerator = Preconditions.checkNotNull(indexGenerator);
         this.docType = docType;
         this.serializationSchema = Preconditions.checkNotNull(serializationSchema);
         this.contentType = Preconditions.checkNotNull(contentType);
         this.requestFactory = Preconditions.checkNotNull(requestFactory);
         this.createKey = Preconditions.checkNotNull(createKey);
+        this.ignoreRetract = Preconditions.checkNotNull(ignoreRetract);
     }
 
     @Override
@@ -80,7 +83,9 @@ class RowElasticsearchSinkFunction implements ElasticsearchSinkFunction<RowData>
                 break;
             case UPDATE_BEFORE:
             case DELETE:
-                processDelete(element, indexer);
+                if (!ignoreRetract) {
+                    processDelete(element, indexer);
+                }
                 break;
             default:
                 throw new TableException("Unsupported message kind: " + element.getRowKind());

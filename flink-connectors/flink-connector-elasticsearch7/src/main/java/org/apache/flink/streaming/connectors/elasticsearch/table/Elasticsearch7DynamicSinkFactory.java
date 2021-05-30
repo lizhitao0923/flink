@@ -50,6 +50,7 @@ import static org.apache.flink.streaming.connectors.elasticsearch.table.Elastics
 import static org.apache.flink.streaming.connectors.elasticsearch.table.ElasticsearchOptions.FLUSH_ON_CHECKPOINT_OPTION;
 import static org.apache.flink.streaming.connectors.elasticsearch.table.ElasticsearchOptions.FORMAT_OPTION;
 import static org.apache.flink.streaming.connectors.elasticsearch.table.ElasticsearchOptions.HOSTS_OPTION;
+import static org.apache.flink.streaming.connectors.elasticsearch.table.ElasticsearchOptions.IGNORE_RETRACT_OPTION;
 import static org.apache.flink.streaming.connectors.elasticsearch.table.ElasticsearchOptions.INDEX_OPTION;
 import static org.apache.flink.streaming.connectors.elasticsearch.table.ElasticsearchOptions.KEY_DELIMITER_OPTION;
 import static org.apache.flink.streaming.connectors.elasticsearch.table.ElasticsearchOptions.PASSWORD_OPTION;
@@ -75,7 +76,8 @@ public class Elasticsearch7DynamicSinkFactory implements DynamicTableSinkFactory
                             CONNECTION_PATH_PREFIX,
                             FORMAT_OPTION,
                             PASSWORD_OPTION,
-                            USERNAME_OPTION)
+                            USERNAME_OPTION,
+                            IGNORE_RETRACT_OPTION)
                     .collect(Collectors.toSet());
 
     @Override
